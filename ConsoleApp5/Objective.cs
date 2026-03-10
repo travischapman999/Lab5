@@ -3,6 +3,19 @@
 
     public class Objective
     {
-        public int CurrentAmount { get; set; }
+		public string Name { get; set; }
+		public int RequiredAmount { get; set; }
+		public int CurrentAmount { get; set; } = 0;
+		public Objective(string name, int amount) {
+			Name = name;
+			RequiredAmount = amount;
+		}
+		public void MaxAmount()
+		{
+			if (CurrentAmount >= RequiredAmount)
+			{
+				CurrentAmount = RequiredAmount;
+			}
+		}
     }
 }

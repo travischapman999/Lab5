@@ -1,29 +1,52 @@
-﻿namespace QuestProgressTracker
+﻿using Microsoft.VisualBasic;
+
+namespace QuestProgressTracker
 {
-    public class Quest
-    {
-        private string v;
+	public class Quest
+	{
+		private string QuestName;
 
-        public Quest(string v)
-        {
-            this.v = v;
-        }
+		public Quest(string questName)
+		{
+			QuestName = questName;
+		}
 
-        public bool IsCompleted { get; set; }
+		public bool IsCompleted { get; set; }
+		public Collection objectives { get; set; } = new Collection();
 
-        public void AddObjective(string v1, int v2)
-        {
-            throw new NotImplementedException();
-        }
+		public void AddObjective(string name, int requiredAmount)
+		{
+			objectives.Add(new Objective(name, requiredAmount), name);
+		}
 
-        public Objective GetObjective(string v)
-        {
-            throw new NotImplementedException();
-        }
+		public Objective GetObjective(string name)
+		{
+			return (Objective)objectives[name];
+		}
 
-        public void ProgressObjective(string v1, int v2)
-        {
-            throw new NotImplementedException();
-        }
-    }
+		public void ProgressObjective(string name, int amount)
+		{
+			Objective objective = (Objective)objectives[name];
+			objective.CurrentAmount += amount;
+			objective.MaxAmount();
+			ObjectivesDone();
+		}
+		public void ObjectivesDone()
+		{
+			bool done = false;
+			foreach (object objective in objectives)
+			{
+				if (((Objective)objective).CurrentAmount == ((Objective)objective).RequiredAmount)
+				{
+					done = true;
+				}
+				else
+				{
+					done = false;
+					break;
+				}
+			}
+			IsCompleted = done;
+		}
+	}
 }
