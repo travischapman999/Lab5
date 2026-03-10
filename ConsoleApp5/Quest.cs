@@ -5,14 +5,13 @@ namespace QuestProgressTracker
 	public class Quest
 	{
 		private string QuestName;
-
+		public bool IsCompleted { get; private set; }
+		public bool ObjectivesCompleted { get; private set; }
+		public Collection objectives { get; private set; } = new Collection();
 		public Quest(string questName)
 		{
 			QuestName = questName;
 		}
-
-		public bool IsCompleted { get; set; }
-		public Collection objectives { get; set; } = new Collection();
 
 		public void AddObjective(string name, int requiredAmount)
 		{
@@ -46,7 +45,18 @@ namespace QuestProgressTracker
 					break;
 				}
 			}
-			IsCompleted = done;
+			ObjectivesCompleted = done;
+		}
+		public void TurnIn()
+		{
+			if (ObjectivesCompleted)
+			{
+				IsCompleted = true;
+			}
+			else
+			{
+				Console.WriteLine("The objectives are not completed.");
+			}
 		}
 	}
 }
