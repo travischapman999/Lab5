@@ -26,9 +26,18 @@ namespace QuestProgressTracker
 		public void ProgressObjective(string name, int amount)
 		{
 			Objective objective = (Objective)objectives[name];
-			objective.CurrentAmount += amount;
-			objective.MaxAmount();
-			ObjectivesDone();
+			if (objective.CurrentAmount + amount > objective.RequiredAmount)
+			{
+				throw new InvalidOperationException("You can not go over the required amount.");
+			}
+			else
+			{
+				objective.CurrentAmount += amount;
+				if (objective.CurrentAmount == objective.RequiredAmount)
+				{
+					this.ObjectivesDone();
+				}
+			}
 		}
 		public void ObjectivesDone()
 		{

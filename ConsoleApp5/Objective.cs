@@ -10,12 +10,5 @@
 			Name = name;
 			RequiredAmount = amount;
 		}
-		public void MaxAmount()
-		{
-			if (CurrentAmount >= RequiredAmount)
-			{
-				CurrentAmount = RequiredAmount;
-			}
-		}
     }
 }
